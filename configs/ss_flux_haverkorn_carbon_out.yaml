@@ -1,0 +1,9 @@
+# Held-out carbon source (train on glucose -> test on galactose, and vice versa).
+# An extrapolation test: ML has never seen the test carbon source; FBA needs no training data.
+experiment: ss_flux_haverkorn_carbon_out
+task: steady_state_flux
+datasets: [haverkorn2011]
+predictors: [fba, pfba, fva_summary, ecfba, ecpfba, mean, ridge, gbm]
+split: {type: leave_group_out, group_by: carbon_source}
+metrics: [rmse, mae, r2, spearman, mass_balance_violation]
+seeds: [0, 1, 2]

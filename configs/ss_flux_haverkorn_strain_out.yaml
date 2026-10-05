@@ -1,0 +1,10 @@
+# Held-out strains: can a predictor generalise to unseen regulator/enzyme knockouts?
+# Every predictor gets the carbon source and the measured uptake rate of each condition
+# (FBA as the uptake bound, ML as features). Both carbon sources of a strain are held out together.
+experiment: ss_flux_haverkorn_strain_out
+task: steady_state_flux
+datasets: [haverkorn2011]
+predictors: [fba, pfba, fva_summary, ecfba, ecpfba, mean, ridge, gbm]
+split: {type: grouped_kfold, group_by: strain, n_splits: 5, n_repeats: 1}
+metrics: [rmse, mae, r2, spearman, mass_balance_violation]
+seeds: [0, 1, 2]

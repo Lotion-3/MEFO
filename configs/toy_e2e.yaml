@@ -1,0 +1,13 @@
+# End-to-end pipeline check on the SYNTHETIC toy network. Not a scientific result.
+experiment: toy_e2e
+task: steady_state_flux
+datasets: [toy]
+predictors:
+  - fba
+  - pfba
+  - fva_summary
+  - mean
+  - {name: ridge, params: {alpha: 1.0}}
+split: {type: leave_condition_out}
+metrics: [rmse, mae, r2, spearman, mass_balance_violation]
+seeds: [0, 1]
