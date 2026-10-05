@@ -20,5 +20,5 @@ def test_figures_render_from_stored_results(tmp_path: Path) -> None:
     if not all(p.exists() for p in needed):
         pytest.skip("experiment reports not built")
     paths = make_all(RESULTS, tmp_path)
-    assert len(paths) == 6
+    assert len(paths) == 4
     assert all(p.stat().st_size > 20_000 for p in paths)

@@ -18,10 +18,7 @@ most.
 
 ## Key findings
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/fig1_headline-dark.png">
-  <img alt="Dot plot of out-of-fold RMSE with 95% bootstrap CIs for growth rate, pooled central-carbon fluxes and acetate secretion, comparing ecpFBA, pFBA, ridge regression, gradient boosting and a mean baseline under two split designs." src="docs/figures/fig1_headline-light.png">
-</picture>
+![Dot plot of out-of-fold RMSE with 95% bootstrap CIs for growth rate, pooled central-carbon fluxes and acetate secretion, comparing ecpFBA, pFBA, ridge regression, gradient boosting and a mean baseline under two split designs.](docs/figures/fig1_headline.png)
 
 1. **An enzyme budget halves FBA's error.** Adding a single total-enzyme constraint
    (ECMpy/sMOMENT-style, published parameters, *nothing fitted to this data*) reduces the
@@ -42,10 +39,7 @@ conditions, while ML corrects systematic within-distribution bias. Testing it is
 
 ### Overflow metabolism, explicitly
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/fig2_overflow-dark.png">
-  <img alt="Three scatter plots of measured vs predicted acetate secretion. pFBA predicts zero for every condition; ecpFBA predicts positive acetate on glucose with wide scatter; ridge predicts a near-constant value." src="docs/figures/fig2_overflow-light.png">
-</picture>
+![Three scatter plots of measured vs predicted acetate secretion. pFBA predicts zero for every condition; ecpFBA predicts positive acetate on glucose with wide scatter; ridge predicts a near-constant value.](docs/figures/fig2_overflow.png)
 
 Aerobic *E. coli* secretes acetate on glucose. Classical (p)FBA cannot reproduce this: every
 prediction is 0. The enzyme budget makes the low-yield, low-protein-cost fermentative route
@@ -54,10 +48,7 @@ galactose, where little is measured, but strain-to-strain scatter remains large.
 
 ### Where each method has skill, flux by flux
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/fig3_skill-dark.png">
-  <img alt="Heatmap of skill score (1 minus RMSE over mean-baseline RMSE) for 24 targets by four methods under two split designs. FBA methods are strong on glycolysis and weak on the TCA cycle and pentose phosphate pathway; ML is positive almost everywhere on held-out strains." src="docs/figures/fig3_skill-light.png">
-</picture>
+![Heatmap of skill score (1 minus RMSE over mean-baseline RMSE) for 24 targets by four methods under two split designs. FBA methods are strong on glycolysis and weak on the TCA cycle and pentose phosphate pathway; ML is positive almost everywhere on held-out strains.](docs/figures/fig3_skill.png)
 
 Skill = 1 − RMSE / RMSE(mean baseline). The FBA family is excellent on lower glycolysis
 (GAPDH/PGK and enolase: skill > 0.8 in both splits) but **worse than the trivial baseline** on most
@@ -119,18 +110,7 @@ licence are in [docs/dataset_notes.md](docs/dataset_notes.md).
 
 ## How it works
 
-```mermaid
-flowchart LR
-    A[configs/*.yaml] --> R[runner]
-    D[Dataset loader<br/>standardised schema] --> T[Task<br/>targets + inputs]
-    T --> S[Group splitter<br/>no leakage]
-    S --> R
-    R --> P1[Mechanistic predictors<br/>COBRApy + GLPK]
-    R --> P2[ML predictors<br/>scikit-learn]
-    P1 & P2 --> C[(Per-cell parquet<br/>+ provenance)]
-    C --> REP[Report: OOF metrics,<br/>bootstrap CIs, paired tests]
-    C --> FIG[Figures]
-```
+![Pipeline diagram: an experiment YAML and a dataset loader feed the runner via a task and a leakage-safe group splitter; the runner calls mechanistic (COBRApy + GLPK) and ML (scikit-learn) predictors, whose outputs are stored as per-cell parquet with provenance, from which the report and figures are built.](docs/figures/fig0_pipeline.png)
 
 Every result row records the config hash, data hash, seed, solver, library versions and git SHA.
 Cells are cached and the runner resumes after interruption. Failed cells are recorded as

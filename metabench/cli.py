@@ -58,7 +58,7 @@ def figures(
     output_dir: Path = typer.Option(Path("results"), help="Directory holding experiment results."),
     out: Path = typer.Option(Path("docs/figures"), help="Where to write the PNGs."),
 ) -> None:
-    """Render README figures (light + dark) from stored results; run `report` first."""
+    """Render README figures from stored results; run `report` first."""
     from metabench.analysis.figures import make_all
 
     for p in make_all(output_dir, out):
